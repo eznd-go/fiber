@@ -1,4 +1,4 @@
-module github.com/gofiber/contrib/fiberzerolog
+module github.com/eznd-go/fiber/fiberzerolog
 
 go 1.18
 
