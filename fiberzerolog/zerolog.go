@@ -75,6 +75,15 @@ func New(config ...Config) fiber.Handler {
 		logger := cfg.logger(c, latency, chainErr)
 		ctx := c.UserContext()
 
+		requestID := ""
+		ok := false
+		if cfg.RequestIDFieldName != "" {
+			requestID, ok = c.Locals(cfg.RequestIDFieldName).(string)
+			if ok {
+				logger = logger.With().Str("request_id", requestID).Logger()
+			}
+		}
+
 		switch level {
 		case zerolog.DebugLevel:
 			logger.Debug().Ctx(ctx).Msg(message)

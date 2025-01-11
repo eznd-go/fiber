@@ -121,6 +121,9 @@ type Config struct {
 	//
 	// Optional. Default: {zerolog.ErrorLevel, zerolog.WarnLevel, zerolog.InfoLevel}
 	Levels []zerolog.Level
+
+	// If set, request id will be read from locals and added to logged fields
+	RequestIDFieldName string
 }
 
 func (c *Config) loggerCtx(fc *fiber.Ctx) zerolog.Context {
@@ -243,11 +246,12 @@ var logger = zerolog.New(os.Stderr).With().Timestamp().Logger()
 
 // ConfigDefault is the default config
 var ConfigDefault = Config{
-	Next:     nil,
-	Logger:   &logger,
-	Fields:   []string{FieldIP, FieldLatency, FieldStatus, FieldMethod, FieldURL, FieldError},
-	Messages: []string{"Server error", "Client error", "Success"},
-	Levels:   []zerolog.Level{zerolog.ErrorLevel, zerolog.WarnLevel, zerolog.InfoLevel},
+	Next:               nil,
+	Logger:             &logger,
+	Fields:             []string{FieldIP, FieldLatency, FieldStatus, FieldMethod, FieldURL, FieldError},
+	Messages:           []string{"Server error", "Client error", "Success"},
+	Levels:             []zerolog.Level{zerolog.ErrorLevel, zerolog.WarnLevel, zerolog.InfoLevel},
+	RequestIDFieldName: "request-id",
 }
 
 // Helper function to set default values
